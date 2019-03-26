@@ -48,14 +48,16 @@ class ViewController: UIViewController, UIPickerViewDelegate, UITextFieldDelegat
     
     
     func resetFields() {
-        txtFirstName.text = ""
-        txtLastName.text = ""
-        txtEmail.text = ""
-        txtSubject.text = ""
-        txtDay.text = ""
-        txtMonth.text = ""
-        txtYear.text = ""
-        marketingUpdateSwitch.setOn(false, animated: true)
+        DispatchQueue.main.async {
+            self.txtFirstName.text = ""
+            self.txtLastName.text = ""
+            self.txtEmail.text = ""
+            self.txtSubject.text = ""
+            self.txtDay.text = ""
+            self.txtMonth.text = ""
+            self.txtYear.text = ""
+            self.marketingUpdateSwitch.setOn(false, animated: true)
+        }
         
     }
     func storeDataLocally(data: Data) {
@@ -123,10 +125,21 @@ class ViewController: UIViewController, UIPickerViewDelegate, UITextFieldDelegat
             return false;
         }
     }
+    func checkSubjectIsValid(_ textField: UITextField) -> Bool {
+        if Utils.checkSubjectIsValid(textField.text!) {
+            return true
+        }
+        else {
+            let alert = UIAlertController(title: "Incorrect Subject" , message: "A valid subject must be selected", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return false;
+        }
+    }
     func checkIfComplete() -> Bool {
         if checkAllTextFields() && checkAllDOBTextFields()
         {
-            if checkEmailIsValid(txtEmail) && checkDateIsValid(txtDay, txtMonth, txtYear) {
+            if checkEmailIsValid(txtEmail) && checkDateIsValid(txtDay, txtMonth, txtYear) && checkSubjectIsValid(txtSubject){
                 return true;
             }
             else {return false}
@@ -308,6 +321,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UITextFieldDelegat
         txtDay.inputAccessoryView = pickerViewToolbar
         txtMonth.inputAccessoryView = pickerViewToolbar
         txtYear.inputAccessoryView = pickerViewToolbar
+        
+//        subjectPickerView.reloadAllComponents()
     }
     
     @objc func subjectDoneClick() {
@@ -328,6 +343,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UITextFieldDelegat
             do {
                 print("Got Subjects")
                 self.subjects = try JSONDecoder().decode([Subject].self, from: data)
+                DispatchQueue.main.async {
+                    self.subjects.insert(Subject.init(name: "Select Subject"), at: 0)
+                }
                 
 //                print(self.subjects);
             } catch let jsonErr{

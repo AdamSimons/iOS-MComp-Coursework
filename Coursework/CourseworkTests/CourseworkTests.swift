@@ -37,9 +37,15 @@ class CourseworkTests: XCTestCase {
     }
     
     func testCheckLoginDetailsTrue() {
-        XCTAssertTrue(Utils.checkLoginDetails("ADMIN", "password"))
+        XCTAssertTrue(Utils.checkLoginDetails("Admin", "password"))
     }
     func testCheckLoginDetailsFalse() {
         XCTAssertFalse(Utils.checkLoginDetails("admin", "password"))
+    }
+    func testCheckSubjectValidTrue() {
+        XCTAssertTrue(Utils.checkSubjectIsValid("Dance"))
+    }
+    func testCheckSubjectValidFalse() {
+        XCTAssertFalse(Utils.checkSubjectIsValid("Select Subject"))
     }
 }
