@@ -42,7 +42,14 @@ class Utils {
     }
     
     static func checkLoginDetails(_ textUsername: String, _ textPassword: String) -> Bool{
-        if textUsername == "ADMIN" && textPassword == "password" {
+        if textUsername == "Admin" && textPassword == "password" {
+            return true
+        }
+        else {return false}
+    }
+    
+    static func checkSubjectIsValid(_ text: String) -> Bool {
+        if text != "Select Subject" {
             return true
         }
         else {return false}
