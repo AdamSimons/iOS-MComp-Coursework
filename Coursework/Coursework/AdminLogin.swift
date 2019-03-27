@@ -14,7 +14,15 @@ class AdminLoginClass: UIViewController {
     @IBOutlet weak var txtUsername: UITextField!
     @IBOutlet weak var txtPassword: UITextField!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        txtUsername.text = ""
+        txtPassword.text = ""
+    }
+    
     @IBAction func loginOnClick(_ sender: Any) {
+        // If credentials are correct then log in
         if Utils.checkLoginDetails(txtUsername.text!, txtPassword.text!) {
             performSegue(withIdentifier: "segueToATVC", sender: nil)
         }
@@ -24,29 +32,7 @@ class AdminLoginClass: UIViewController {
             self.present(alert, animated: true, completion: nil);
         }
     }
-    
-    
-    struct LoginDetails {
-        let username: String
-        let password: String
-    };
-    
-    let adminDetails = LoginDetails(username: "Admin", password: "password")
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        txtUsername.text = ""
-        txtPassword.text = ""
-    }
-    
-//    func checkLoginDetails() -> Bool {
-//        if txtUsername.text == adminDetails.username && txtPassword.text == adminDetails.password {
-//            return true;
-//        }
-//        else { return false }
-//    }
-    
+    // When the user logs out it runs the unwind then reset text fields
     @IBAction func myUnwindAction(unwindSegue: UIStoryboardSegue) {
         txtUsername.text = ""
         txtPassword.text = ""

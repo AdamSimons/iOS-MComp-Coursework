@@ -14,12 +14,60 @@ class AdminTableViewController:  UIViewController,
 UITableViewDelegate, UITableViewDataSource {
     
     var dataToDelete = [UUID]()
+    var tableData = [Data]()
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     @IBOutlet weak var tableView: UITableView!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        print("ViewDidLoad ATVC")
+        tableView.delegate = self
+        tableView.dataSource = self
+        // Load the data
+        loadCoreData()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    func loadCoreData() {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "RegisterDB") // get the correct DB
+        request.returnsObjectsAsFaults=false
+        
+        let context = appDelegate.persistentContainer.viewContext
+        
+        do {
+            let result = try context.fetch(request)
+            
+            for data in result as! [NSManagedObject] { // get the data from the table via names of the columns
+                let dataFromDB = Data.init(
+                    Name: (data.value(forKey: "name") as! String),
+                    Email: (data.value(forKey: "email") as! String),
+                    DOB: (data.value(forKey: "dob") as! String),
+                    SubjectArea: (data.value(forKey: "subjectArea") as! String),
+                    MarketingUpdates: (data.value(forKey: "marketingUpdates") as! Bool),
+                    GpsLat: (data.value(forKey: "gpsLat") as! Double),
+                    GpsLon: (data.value(forKey: "gpsLon") as! Double))
+                
+                tableData.append(dataFromDB) // place in array
+                
+                print(dataFromDB.ID)
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData() // Reload the table with the new data
+            }
+        } catch {
+            print("Query failed")
+        }
+    }
+    
+    // On Sync click
     @IBAction func syncOnClick(_ sender: Any) {
-        let count = datas.count
-        for (index, data) in datas.enumerated() {
+        let count = tableData.count // get count
+        for (index, data) in tableData.enumerated() { // enumerate through the array
             guard let uploadData = try? JSONEncoder().encode(data) else {return}
             guard let url = URL(string: "https://prod-69.westeurope.logic.azure.com:443/workflows/d2ec580e6805459893e498d43f292462/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=zn8yq-Xe3cOCDoRWTiLwDsUDXAwdGSNzxKL5OUHJPxo") else {return}
             var request = URLRequest(url: url);
@@ -32,7 +80,7 @@ UITableViewDelegate, UITableViewDataSource {
                 
                 if let response = response as? HTTPURLResponse {
                     if response.statusCode == 200 {
-                        self.dataToDelete.append(data.ID)
+                        self.dataToDelete.append(data.ID) // if upload successful place in another array to be deleted
                         print("Data \(data.ID) has been sent off")
                     }
                     print(response.statusCode)
@@ -40,7 +88,7 @@ UITableViewDelegate, UITableViewDataSource {
                 if let error = error {
                     print(error.localizedDescription)
                 }
-                if (index + 1) == count {
+                if (index + 1) == count { // Once all the data has been sent then delete
                     DispatchQueue.main.async {
                         self.deleteEntries()
                     }
@@ -49,84 +97,38 @@ UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    // Delete all the data that has been synced from the local DB
     func deleteEntries() {
-        
-        for id in dataToDelete {
+        for id in dataToDelete { // Using the UUID
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "RegisterDB")
             request.returnsObjectsAsFaults=false
-           // request.predicate = NSPredicate(format: "id == %@", id.uuidString)
             let context = appDelegate.persistentContainer.viewContext
             
             if let result = try? context.fetch(request) {
-                for object in result {
+                for object in result { // Remove DB entries that match the deletion array entries
                     context.delete(object as! NSManagedObject)
                 }
             }
             try? context.save()
-            for (index, objects) in datas.enumerated() {
+            for (index, objects) in tableData.enumerated() { // Delete the data from the table data
                 if objects.ID == id {
-                    datas.remove(at: index)
+                    tableData.remove(at: index)
                 }
             }
         }
-        tableView.reloadData()
+        tableView.reloadData() // reload the table view
     }
     
-    var datas = [Data]()
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        print("ViewDidLoad ATVC")
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        loadCoreData()
-    }
-    
+    // MARK: Table view delegate functions
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datas.count
+        return tableData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "dataCell", for: indexPath)
-        cell.textLabel?.text = datas[indexPath.row].Name
+        cell.textLabel?.text = tableData[indexPath.row].Name // place name in the row of the table view
         return cell
     }
     
-    func loadCoreData() {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "RegisterDB")
-        request.returnsObjectsAsFaults=false
-        
-        let context = appDelegate.persistentContainer.viewContext
-        
-        do {
-            let result = try context.fetch(request)
-            
-            for data in result as! [NSManagedObject] {
-                let dataFromDB = Data.init(
-                    Name: (data.value(forKey: "name") as! String),
-                    Email: (data.value(forKey: "email") as! String),
-                    DOB: (data.value(forKey: "dob") as! String),
-                    SubjectArea: (data.value(forKey: "subjectArea") as! String),
-                    MarketingUpdates: (data.value(forKey: "marketingUpdates") as! Bool),
-                    GpsLat: (data.value(forKey: "gpsLat") as! Double),
-                    GpsLon: (data.value(forKey: "gpsLon") as! Double))
-                
-                datas.append(dataFromDB)
-                
-                print(dataFromDB.ID)
-            }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        } catch {
-            print("Query failed")
-        }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
+
 }

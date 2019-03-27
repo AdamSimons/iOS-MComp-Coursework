@@ -48,4 +48,14 @@ class CourseworkTests: XCTestCase {
     func testCheckSubjectValidFalse() {
         XCTAssertFalse(Utils.checkSubjectIsValid("Select Subject"))
     }
+    func testCheckDateIsBeforeTodayTrue() {
+        XCTAssertTrue(Utils.checkDateIsBeforeToday(Date() - 1))
+    }
+    func testCheckDateIsBeforeTodayFalse() {
+        XCTAssertFalse(Utils.checkDateIsBeforeToday(Date() + 1))
+    }
+    func testCheckDateIsEqualToday() {
+        XCTAssertTrue(Utils.checkDateIsBeforeToday(Date()))
+    }
+    
 }
