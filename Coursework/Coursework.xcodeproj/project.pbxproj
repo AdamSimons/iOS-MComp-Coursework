@@ -13,11 +13,11 @@
 		6B11D13D220B079E001CF119 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B11D13C220B079E001CF119 /* Assets.xcassets */; };
 		6B11D140220B079E001CF119 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B11D13E220B079E001CF119 /* LaunchScreen.storyboard */; };
 		6B11D14B220B079E001CF119 /* CourseworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B11D14A220B079E001CF119 /* CourseworkTests.swift */; };
-		6B11D156220B079E001CF119 /* CourseworkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B11D155220B079E001CF119 /* CourseworkUITests.swift */; };
 		6B8FFFD92214AC4200C8C0B3 /* AdminLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8FFFD82214AC4200C8C0B3 /* AdminLogin.swift */; };
 		6B8FFFDB2214B3CF00C8C0B3 /* AdminTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8FFFDA2214B3CF00C8C0B3 /* AdminTableViewController.swift */; };
 		6BA0C35E220F760F00DE6B57 /* Coursework.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0C35C220F760F00DE6B57 /* Coursework.xcdatamodeld */; };
 		6BA817602214B687006BF2BD /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA8175F2214B687006BF2BD /* Data.swift */; };
+		6BB8599722579F4A0039737B /* CourseworkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB8599622579F4A0039737B /* CourseworkUITests.swift */; };
 		6BC5BEF12237BC07005540F5 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BEF02237BC07005540F5 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,12 +50,12 @@
 		6B11D14A220B079E001CF119 /* CourseworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseworkTests.swift; sourceTree = "<group>"; };
 		6B11D14C220B079E001CF119 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B11D151220B079E001CF119 /* CourseworkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CourseworkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B11D155220B079E001CF119 /* CourseworkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseworkUITests.swift; sourceTree = "<group>"; };
 		6B11D157220B079E001CF119 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B8FFFD82214AC4200C8C0B3 /* AdminLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminLogin.swift; sourceTree = "<group>"; };
 		6B8FFFDA2214B3CF00C8C0B3 /* AdminTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminTableViewController.swift; sourceTree = "<group>"; };
 		6BA0C35D220F760F00DE6B57 /* Coursework.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Coursework.xcdatamodel; sourceTree = "<group>"; };
 		6BA8175F2214B687006BF2BD /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		6BB8599622579F4A0039737B /* CourseworkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseworkUITests.swift; sourceTree = "<group>"; };
 		6BC5BEF02237BC07005540F5 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,8 +134,8 @@
 		6B11D154220B079E001CF119 /* CourseworkUITests */ = {
 			isa = PBXGroup;
 			children = (
-				6B11D155220B079E001CF119 /* CourseworkUITests.swift */,
 				6B11D157220B079E001CF119 /* Info.plist */,
+				6BB8599622579F4A0039737B /* CourseworkUITests.swift */,
 			);
 			path = CourseworkUITests;
 			sourceTree = "<group>";
@@ -293,7 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B11D156220B079E001CF119 /* CourseworkUITests.swift in Sources */,
+				6BB8599722579F4A0039737B /* CourseworkUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
