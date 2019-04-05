@@ -306,7 +306,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UITextFieldDelegat
                 lblBeingEdited.alpha += 1; // become visible
             }, completion: nil)
             
-            txtBeingEdited.placeholder = "";
+//            txtBeingEdited.placeholder = ;
         }
     }
     
@@ -429,6 +429,18 @@ class ViewController: UIViewController, UIPickerViewDelegate, UITextFieldDelegat
             self.txtMonth.text = ""
             self.txtYear.text = ""
             self.marketingUpdateSwitch.setOn(false, animated: true)
+            
+            // Animate labels back to starting positions
+            UIView.animate(withDuration: 1, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+                self.lblFirstName.center.y += 25;
+                self.lblFirstName.alpha -= 1;
+                self.lblLastName.center.y += 25;
+                self.lblLastName.alpha -= 1;
+                self.lblEmail.center.y += 25;
+                self.lblEmail.alpha -= 1;
+                self.lblSubject.center.y += 25;
+                self.lblSubject.alpha -= 1;
+            }, completion: nil)
         }
     }
     
